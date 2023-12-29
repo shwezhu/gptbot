@@ -52,7 +52,7 @@ func chat(reqBody *RequestBody) (string, error) {
 			Content: message.Content,
 		})
 	}
-
+  
 	resp, err := openaiClient.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
