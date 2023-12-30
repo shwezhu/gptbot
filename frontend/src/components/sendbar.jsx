@@ -1,5 +1,6 @@
 import {Space, Input, Button, message} from "antd";
 import {ClearOutlined, SendOutlined} from "@ant-design/icons";
+import SetKeyBar from "./setkeybar.jsx";
 
 export default function SendBar(props) {
     let input = '';
@@ -40,6 +41,7 @@ export default function SendBar(props) {
                 icon={<SendOutlined />}
                 onClick={onClick}
             >发送</Button>
+            <SetKeyBar />
         </Space.Compact>
     );
 }

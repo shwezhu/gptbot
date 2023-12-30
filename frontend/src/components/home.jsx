@@ -3,9 +3,7 @@ import {ChatGPT} from "./chatgpt.jsx";
 const { Content, Footer } = Layout;
 
 export default function Home() {
-    const {
-        token: { colorBgContainer},
-    } = theme.useToken();
+    const {token: { colorBgContainer}} = theme.useToken();
 
     return (
         <Layout

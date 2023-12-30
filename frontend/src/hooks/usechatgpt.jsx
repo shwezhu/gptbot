@@ -18,6 +18,11 @@ export const useChatGPT = (props) => {
     }
 
     async function fetchMessage(messages) {
+        if (localStorage.getItem('token') == null) {
+            message.warning("请先设置暗号喵~").then();
+            return;
+        }
+        
         message.open({
             content: "正在获取信息, 请稍等喵~",
             duration: 3,
