@@ -11,7 +11,7 @@ var openaiClient *openai.Client
 
 func main() {
 	if len(os.Args) != 4 {
-		log.Fatalf("usage: %s <port> <authorization-key> <default-model>", os.Args[0])
+		log.Fatalf("usage: %s <:port> <authorization-key> <default-model>", os.Args[0])
 	}
 	if os.Getenv("OPENAI_API_KEY") == "" {
 		log.Fatalf("OPENAI_API_KEY not set in environment variables")

@@ -1,18 +1,45 @@
-import {useRef} from "react";
+import {Space, Input, Button, message} from "antd";
+import {ClearOutlined, SendOutlined} from "@ant-design/icons";
 
-const SendBar = (props) => {
-    const inputRef = useRef(null);
+export default function SendBar(props) {
+    let input = '';
 
-    const sendMessage = () => {
-        const message = inputRef.current.value;
-        props.sendMessage(message);
-        inputRef.current.value = "";
+    function onChange(e) {
+        input = e.target.value;
+    }
+
+    function onClick() {
+        if (input === '') {
+            message.info("请输入内容").then();
+            return;
+        }
+
+        props.onSend({
+            role: 'user',
+            content: input,
+        });
+        input = ''
     }
 
     return (
-        <div className="send-bar">
-            <input type="text" ref={inputRef} />
-            <button onClick={sendMessage}>Send</button>
-        </div>
-    )
+        <Space.Compact
+            block={true}
+        >
+            <Button
+                icon={<ClearOutlined />}
+                onClick={props.onClear}
+            >清空</Button>
+            <Input.TextArea
+                placeholder="Let's chat!"
+                autoSize={{ maxRows: 4 }}
+                onChange={onChange}
+                allowClear
+                autoComplete="off"
+            />
+            <Button
+                icon={<SendOutlined />}
+                onClick={onClick}
+            >发送</Button>
+        </Space.Compact>
+    );
 }

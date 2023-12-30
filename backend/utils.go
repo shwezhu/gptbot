@@ -16,8 +16,8 @@ func handleError(response http.ResponseWriter, message string, status int) {
 	_ = json.NewEncoder(response).Encode(Error{Error: message})
 }
 
-func handleSuccess(response http.ResponseWriter, message string, status int) {
+func handleSuccess(response http.ResponseWriter, message Message, status int) {
 	response.Header().Set("Content-Type", "application/json")
 	response.WriteHeader(status)
-	_ = json.NewEncoder(response).Encode(Message{Message: message})
+	_ = json.NewEncoder(response).Encode(message)
 }

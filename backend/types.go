@@ -1,17 +1,13 @@
 package main
 
-type ResponseBody struct {
+type Message struct {
 	Role    string `json:"role"`
 	Content string `json:"content"`
 }
 
 type RequestBody struct {
-	Model    string         `json:"model"`
-	Messages []ResponseBody `json:"messages"`
-}
-
-type Message struct {
-	Message string `json:"message"`
+	Model    string    `json:"model"`
+	Messages []Message `json:"messages"`
 }
 
 type Error struct {

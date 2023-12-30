@@ -41,7 +41,7 @@ func withGPT(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	handleSuccess(w, msg, http.StatusOK)
+	handleSuccess(w, Message{Role: "assistant", Content: msg}, http.StatusOK)
 }
 
 func chat(reqBody *RequestBody) (string, error) {
@@ -52,7 +52,7 @@ func chat(reqBody *RequestBody) (string, error) {
 			Content: message.Content,
 		})
 	}
-  
+
 	resp, err := openaiClient.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
