@@ -19,7 +19,6 @@ export default function SendBar(props) {
             role: 'user',
             content: input,
         });
-        input = ''
     }
 
     return (

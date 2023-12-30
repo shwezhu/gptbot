@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import {message} from "antd";
 
+function validMessageLength(messages) {
+    const totalLength = messages.reduce((sum, message) => sum + message.content.length, 0);
+    return totalLength < 2000;
+}
+
 export const useChatGPT = (props) => {
     const { fetchPath } = props;
     const [messages, setMessages] = useState([]);
@@ -22,6 +27,15 @@ export const useChatGPT = (props) => {
             // remove the last message
             setMessages((messages) => messages.slice(0, -1));
             message.warning("请先设置暗号喵~").then();
+            return;
+        }
+
+        if (!validMessageLength(messages)) {
+            setMessages((messages) => messages.slice(0, -1));
+            message.warning({
+                content: "消息太多啦, 清空信息之前记得保存重要的信息哦喵~",
+                duration: 5,
+            }).then();
             return;
         }
 
@@ -75,6 +89,3 @@ export const useChatGPT = (props) => {
         onClear,
     };
 };
-
-
-
