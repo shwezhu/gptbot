@@ -22,8 +22,10 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/chat", authenticatedOnly(withGPT))
 
+	hsts := &Hsts{mux: mux}
+
 	log.Println("Listening on ", os.Args[1])
-	err := http.ListenAndServe(os.Args[1], mux)
+	err := http.ListenAndServe(os.Args[1], hsts)
 	if err != nil {
 		log.Fatalf("error listening and serving: %v", err)
 	}
