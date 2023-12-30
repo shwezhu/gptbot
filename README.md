@@ -1,4 +1,4 @@
-# GPTBot
+# GPTBot Backend
 
 - Single executable file
 - Supports authorization via HTTP header
