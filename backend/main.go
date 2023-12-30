@@ -5,28 +5,30 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var openaiClient *openai.Client
+var flags = &Flags{}
 
 func main() {
-	if len(os.Args) != 4 {
-		log.Fatalf("usage: %s <:port> <authorization-key> <default-model>", os.Args[0])
-	}
 	if os.Getenv("OPENAI_API_KEY") == "" {
 		log.Fatalf("OPENAI_API_KEY not set in environment variables")
 	}
 
 	openaiClient = openai.NewClient(os.Getenv("OPENAI_API_KEY"))
+	if err := readFlags(flags); err != nil {
+		log.Fatalf("error reading flags: %v", err)
+	}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/chat", authenticatedOnly(withGPT))
-
 	hsts := &Hsts{mux: mux}
 
-	log.Println("Listening on ", os.Args[1])
-	err := http.ListenAndServe(os.Args[1], hsts)
-	if err != nil {
-		log.Fatalf("error listening and serving: %v", err)
+	log.Println("Listening on ", strings.TrimPrefix(flags.port, ":"))
+	if flags.tlsCert != "" && flags.tlsKey != "" {
+		log.Fatal(http.ListenAndServeTLS(flags.port, flags.tlsCert, flags.tlsKey, hsts))
+	} else {
+		log.Fatal(http.ListenAndServe(flags.port, hsts))
 	}
 }

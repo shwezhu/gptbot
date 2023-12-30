@@ -8,7 +8,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
 )
 
 func withGPT(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +30,7 @@ func withGPT(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if reqBody.Model == "" {
-		reqBody.Model = os.Args[3]
+		reqBody.Model = flags.model
 	}
 
 	msg, err := chat(&reqBody)

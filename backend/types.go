@@ -13,3 +13,11 @@ type RequestBody struct {
 type Error struct {
 	Error string `json:"error"`
 }
+
+type Flags struct {
+	port    string
+	token   string
+	model   string
+	tlsKey  string
+	tlsCert string
+}
