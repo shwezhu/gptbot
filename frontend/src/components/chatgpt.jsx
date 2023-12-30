@@ -6,8 +6,6 @@ import {useChatGPT} from "../hooks/usechatgpt.jsx";
 export function ChatGPT(props) {
     const { messages, onSend, onClear } = useChatGPT(props)
 
-    /** @namespace props.fetchPath */
-    console.log(props);
     return (
         <Space
             style={{

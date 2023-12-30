@@ -19,13 +19,15 @@ export const useChatGPT = (props) => {
 
     async function fetchMessage(messages) {
         if (localStorage.getItem('token') == null) {
+            // remove the last message
+            setMessages((messages) => messages.slice(0, -1));
             message.warning("请先设置暗号喵~").then();
             return;
         }
-        
+
         message.open({
             content: "正在获取信息, 请稍等喵~",
-            duration: 3,
+            duration: 1.5,
         }).then();
 
         try {
@@ -40,15 +42,19 @@ export const useChatGPT = (props) => {
             const data = await response.json();
 
             if (!response.ok) {
+                // remove the last message
+                setMessages((messages) => messages.slice(0, -1));
                 message.error({
-                    content: "获取信息失败, 请联系截图主人喵~: " + data.message,
+                    content: "获取信息失败, 请联系截图主人喵~: " + data.error,
                     duration: 5,
                 });
                 return;
             }
 
-            archiveCurrentMessage(data.message);
+            archiveCurrentMessage(data.content);
         } catch (e) {
+            // remove the last message
+            setMessages((messages) => messages.slice(0, -1));
             message.error("获取信息失败, 请联系截图主人喵~: " + e);
         }
     }
