@@ -23,13 +23,6 @@ export const useChatGPT = (props) => {
     }
 
     async function fetchMessage(messages) {
-        if (localStorage.getItem('token') == null) {
-            // remove the last message
-            setMessages((messages) => messages.slice(0, -1));
-            message.warning("请先设置暗号喵~").then();
-            return;
-        }
-
         if (!validMessageLength(messages)) {
             setMessages((messages) => messages.slice(0, -1));
             message.warning({

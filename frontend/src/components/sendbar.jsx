@@ -9,9 +9,17 @@ export default function SendBar(props) {
         input = e.target.value;
     }
 
-    function onClick() {
+    async function onClick() {
         if (input === '') {
-            message.info("请输入内容").then();
+            message.info("请输入").then();
+            return;
+        }
+
+        if (localStorage.getItem('token') == null) {
+            message.info({
+                content: "请先设置暗号喵~",
+                duration: 3,
+            }).then();
             return;
         }
 
