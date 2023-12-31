@@ -1,4 +1,4 @@
-# GPTBot Backend
+# gptbot backend
 
 - Single executable file
 - Supports authorization via HTTP header
@@ -76,3 +76,7 @@ Or error:
   }'
 {"role":"assistant","content":"你好！有什么我可以帮助你的吗？"}
 ```
+
+# gptbot frontend
+
+[gptbot](doc/gptbot.png)
