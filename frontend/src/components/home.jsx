@@ -19,7 +19,7 @@ export default function Home() {
                     background: colorBgContainer,
                 }}
             >
-                <ChatGPT fetchPath={'/api/chat'} />
+                <ChatGPT fetchPath={'https://shaowenzhu.top:2096/api/chat'} />
             </Content>
             <Footer
                 style={{
