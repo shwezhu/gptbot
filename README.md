@@ -79,4 +79,4 @@ Or error:
 
 # gptbot frontend
 
-[gptbot](doc/gptbot.png)
+![gptbot](doc/gptbot.png)
