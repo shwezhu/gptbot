@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/chat': 'http://shaowenzhu.top:8080',
+      '/api/chat': 'https://shaowenzhu.top:2096',
     },
   },
 })

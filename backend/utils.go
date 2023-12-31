@@ -8,6 +8,14 @@ import (
 	"strings"
 )
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+	// We need to allow the Authorization header to be sent to the backend.
+	(*w).Header().Set("Access-Control-Allow-Headers", "*")
+	(*w).Header().Set("Access-Control-Max-Age", "86400")
+}
+
 func verifyToken(token string) bool {
 	return token == flags.token
 }
