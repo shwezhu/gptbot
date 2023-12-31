@@ -27,9 +27,7 @@ export default function SetKeyBar() {
 
     return (
         <>
-            <Button onClick={showModal}>
-                暗号
-            </Button>
+            <Button onClick={showModal}>设置暗号</Button>
             <Modal
                 open={open}
                 title="设置暗号"
@@ -37,8 +35,7 @@ export default function SetKeyBar() {
                 onCancel={handleCancel}
                 footer={(_, { OkBtn }) => (
                     <OkBtn />
-                )}
-            >
+                )}>
                 <Input
                     placeholder="请输入你和主人的暗号喵~"
                     allowClear
