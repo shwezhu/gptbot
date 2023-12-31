@@ -13,8 +13,6 @@ export default function Home() {
         >
             <Content
                 style={{
-                    paddingLeft: '20vh',
-                    paddingRight: '20vh',
                     height: '90vh',
                     background: colorBgContainer,
                 }}

@@ -1,12 +1,13 @@
 import {Space, Input, Button, message} from "antd";
 import {ClearOutlined, SendOutlined} from "@ant-design/icons";
 import SetKeyBar from "./setkeybar.jsx";
+import {useState} from "react";
 
 export default function SendBar(props) {
-    let input = '';
+    const [input, setInput] = useState('');
 
     function onChange(e) {
-        input = e.target.value;
+        setInput(e.target.value);
     }
 
     async function onClick() {
@@ -27,22 +28,22 @@ export default function SendBar(props) {
             role: 'user',
             content: input,
         });
+
+        setInput('');
     }
 
     return (
-        <Space.Compact
-            block={true}
-        >
+        <Space.Compact block={true}>
             <Button
                 icon={<ClearOutlined />}
                 onClick={props.onClear}
             >清空</Button>
             <Input.TextArea
                 placeholder="Let's chat!"
-                autoSize={{ maxRows: 4 }}
+                autoSize={{ maxRows: 1 }}
                 onChange={onChange}
+                value={input}
                 allowClear
-                autoComplete="off"
             />
             <Button
                 icon={<SendOutlined />}
