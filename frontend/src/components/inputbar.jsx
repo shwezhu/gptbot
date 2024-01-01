@@ -2,7 +2,7 @@ import {Space, Input, Button, message} from "antd";
 import {ClearOutlined, SendOutlined} from "@ant-design/icons";
 import {useState} from "react";
 
-export default function SendBar(props) {
+export default function Inputbar(props) {
     const [input, setInput] = useState('');
 
     function onChange(e) {

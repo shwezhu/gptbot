@@ -1,8 +1,18 @@
 import {List} from "antd";
-import {Loading} from "./loading.jsx";
+import {LoadingInfo} from "./loading-info.jsx";
+import {useEffect, useRef} from "react";
 
 export function ChatBar(props) {
     const { messages, loading } = props;
+    const endOfMessagesRef = useRef(null);
+
+    function scrollToBottom() {
+        endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     return (
         <List
@@ -19,7 +29,8 @@ export function ChatBar(props) {
                 marginBottom: '5vh',
             }}
         >
-            { loading ? <Loading/> : null }
+            { loading ? <LoadingInfo/> : null }
+            <div ref={endOfMessagesRef} />
         </List>
     );
 }

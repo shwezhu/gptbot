@@ -1,4 +1,4 @@
-import SendBar from "./sendbar.jsx";
+import Inputbar from "./inputbar.jsx";
 import {Space} from "antd";
 import {ChatBar} from "./chatbar.jsx";
 import {useChatGPT} from "../hooks/usechatgpt.jsx";
@@ -10,7 +10,7 @@ export function ChatGPT(props) {
         <Space style={{width: '100%',}}
             direction="vertical">
             <ChatBar messages={messages} loading={loading} />
-            <SendBar onSend={onSend} onClear={onClear}/>
+            <Inputbar onSend={onSend} onClear={onClear}/>
         </Space>
     );
 }

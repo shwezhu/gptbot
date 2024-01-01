@@ -1,7 +1,7 @@
 import {List, Spin} from "antd";
 import {LoadingOutlined} from "@ant-design/icons";
 
-export function Loading() {
+export function LoadingInfo() {
     return (
         <List.Item>
             <List.Item.Meta
