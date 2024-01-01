@@ -4,11 +4,12 @@
     margin-bottom: 5vh;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* 使消息气泡对齐到开始位置 */
+    align-items: flex-start;
 }
 
 .messages-container {
     width: 100%;
+    padding-right: 2vh;
 }
 
 .message {

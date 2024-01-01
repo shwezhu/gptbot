@@ -6,10 +6,18 @@ import Background from "./background.jsx";
 
 export default function Home() {
     return (
-        <>
+        <div
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+            }}
+        >
             <Background/>
             <Layout style={{
-                height: '100%',
+                height: '100vh',
                 width: '100%',
                 backgroundColor: 'transparent',
                 zIndex: 1,
@@ -34,6 +42,6 @@ export default function Home() {
                     妮妮殿下的专属机器人 ©2023 Created by 为霜
                 </Footer>
             </Layout>
-        </>
+        </div>
     );
 }

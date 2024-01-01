@@ -43,6 +43,7 @@ export default function InputBar(props) {
                 placeholder="Let's chat!"
                 autoSize={{ maxRows: 1 }}
                 onChange={onChange}
+                onPressEnter={onClick}
                 value={input}
                 allowClear
             />
