@@ -13,7 +13,6 @@ export const useChatGPT = (props) => {
 
     function archiveCurrentMessage(msg) {
         if (msg) {
-            setLoading(false)
             setMessages((messages) => [
                 ...messages,
                 {
@@ -47,6 +46,8 @@ export const useChatGPT = (props) => {
                 body: JSON.stringify({messages}),
             });
             const data = await response.json();
+
+            setLoading(false)
 
             if (!response.ok) {
                 // remove the last message

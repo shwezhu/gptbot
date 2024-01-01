@@ -11,7 +11,7 @@ import (
 )
 
 func withGPT(w http.ResponseWriter, r *http.Request) {
-	const maxBodySize = 1 << 10 // 1 KB
+	const maxBodySize = 1 << 24 // 16MB
 	r.Body = http.MaxBytesReader(w, r.Body, maxBodySize)
 
 	body, err := io.ReadAll(r.Body)
