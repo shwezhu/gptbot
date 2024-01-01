@@ -3,7 +3,7 @@ import {LoadingInfo} from "./loading-info.jsx";
 import {useEffect, useRef} from "react";
 
 export function ChatBar(props) {
-    const { messages, loading } = props;
+    const { messages, loading, onStop } = props;
     const endOfMessagesRef = useRef(null);
 
     function scrollToBottom() {
@@ -29,7 +29,7 @@ export function ChatBar(props) {
                 marginBottom: '5vh',
             }}
         >
-            { loading ? <LoadingInfo/> : null }
+            { loading ? <LoadingInfo onStop={onStop} /> : null }
             <div ref={endOfMessagesRef} />
         </List>
     );
