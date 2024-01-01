@@ -2,7 +2,7 @@ import {Space, Input, Button, message} from "antd";
 import {ClearOutlined, SendOutlined} from "@ant-design/icons";
 import {useState} from "react";
 
-export default function Inputbar(props) {
+export default function InputBar(props) {
     const [input, setInput] = useState('');
 
     function onChange(e) {
@@ -23,10 +23,7 @@ export default function Inputbar(props) {
             return;
         }
 
-        props.onSend({
-            role: 'user',
-            content: input,
-        });
+        props.onSend(input);
 
         setInput('');
     }

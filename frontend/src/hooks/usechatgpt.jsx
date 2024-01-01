@@ -1,31 +1,52 @@
 import {useRef, useState} from 'react';
 import {message} from "antd";
 
-function validMessageLength(messages) {
-    const totalLength = messages.reduce((sum, message) => sum + message.content.length, 0);
-    return totalLength < 3000;
+function validMessageSize(messages) {
+    const totalCharacters = messages.reduce((sum, message) => sum + message.content.length, 0);
+
+    if (totalCharacters > 6000) {
+        while (messages.length > 6) {
+            messages.shift();  // remove the first message
+        }
+    }
+
+    return totalCharacters < 6000;
 }
 
 export const useChatGPT = (props) => {
     const { fetchPath } = props;
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([]); // used to send to the server
+    const [chatHistory, setChatHistory] = useState([]); // used to display
     const [loading, setLoading] = useState(false);
     const controller = useRef(null)
 
-    function archiveCurrentMessage(msg) {
-        if (msg) {
-            setMessages((messages) => [
-                ...messages,
+    function updateMessages(msg, role) {
+        setMessages((messages) => [
+            ...messages,
+            {
+                role: role,
+                content: msg,
+            }
+        ]);
+        setChatHistory(
+            (chatHistory) => [
+                ...chatHistory,
                 {
-                    role: 'assistant',
+                    role: role,
                     content: msg,
                 }
-            ]);
+            ]
+        )
+    }
+
+    function archiveCurrentMessage(msg) {
+        if (msg) {
+            updateMessages(msg, 'assistant');
         }
     }
 
     async function fetchMessage(messages) {
-        if (!validMessageLength(messages)) {
+        if (!validMessageSize(messages)) {
             // remove the last message
             setMessages((messages) => messages.slice(0, -1));
             message.warning({
@@ -66,7 +87,7 @@ export const useChatGPT = (props) => {
             setLoading(false)
             // remove the last message
             setMessages((messages) => messages.slice(0, -1));
-            
+
             if (e.name === 'AbortError') {
                 return
             }
@@ -76,8 +97,8 @@ export const useChatGPT = (props) => {
     }
 
     const onSend = (message) => {
-        const newMessages = [...messages, message];
-        setMessages(newMessages);
+        updateMessages(message, 'user');
+        const newMessages = [...messages, {role: 'user', content: message}];
         fetchMessage(newMessages).then();
     };
 
@@ -93,8 +114,8 @@ export const useChatGPT = (props) => {
     }
 
     return {
-        messages,
         loading,
+        chatHistory,
         onSend,
         onClear,
         onStop,

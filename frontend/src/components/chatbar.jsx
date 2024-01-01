@@ -3,7 +3,7 @@ import {LoadingInfo} from "./loading-info.jsx";
 import {useEffect, useRef} from "react";
 
 export function ChatBar(props) {
-    const { messages, loading, onStop } = props;
+    const { chatHistory, loading, onStop } = props;
     const endOfMessagesRef = useRef(null);
 
     function scrollToBottom() {
@@ -12,11 +12,11 @@ export function ChatBar(props) {
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages]);
+    }, [chatHistory]);
 
     return (
         <List
-            dataSource={messages}
+            dataSource={chatHistory}
             renderItem={item => (
                 <List.Item>
                     <List.Item.Meta title={item.role}/>
