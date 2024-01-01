@@ -27,7 +27,14 @@ export default function SetKeyBar() {
 
     return (
         <>
-            <Button onClick={showModal}>设置暗号</Button>
+            <Button
+                onClick={showModal}
+                style={{
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    color: 'white',
+                }}
+            >设置暗号</Button>
             <Modal
                 open={open}
                 title="设置暗号"

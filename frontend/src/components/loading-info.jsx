@@ -23,8 +23,13 @@ export function LoadingInfo(props) {
                         <Button
                             icon={<CloseCircleOutlined />}
                             onClick={onStop}
+                            style={{
+                                backgroundColor: 'transparent',
+                                border: 'none',
+                                color: 'white',
+                            }}
                         >
-                            停止
+                            取消发送
                         </Button>
                     </>
                 }

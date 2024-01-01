@@ -7,8 +7,7 @@ export function ChatGPT(props) {
     const { chatHistory, loading, onSend, onClear, onStop } = useChatGPT(props)
 
     return (
-        <Space style={{width: '100%',}}
-            direction="vertical">
+        <Space style={{width: '100%', paddingLeft: '2vh'}} direction="vertical">
             <ChatBar chatHistory={chatHistory} loading={loading} onStop={onStop} />
             <InputBar onSend={onSend} onClear={onClear}/>
         </Space>

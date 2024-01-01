@@ -18,8 +18,20 @@ export function ChatBar(props) {
         <List
             dataSource={chatHistory}
             renderItem={item => (
-                <List.Item>
-                    <List.Item.Meta title={item.role}/>
+                <List.Item
+                    style={{
+                        backgroundColor: item.role === 'user' ? '#ece5dd' : '#dcf8c6',
+                        color: 'black',
+                        borderRadius: '1vh',
+                        marginBottom: '1vh',
+                        padding: '1vh',
+                        width: '70%',
+                        minHeight: '8vh',
+                        display: 'flex',
+                        justifyContent: item.role === 'user' ? 'flex-end' : 'flex-start',
+                    }}
+                >
+                    <List.Item.Meta title={item.role === 'user'? '妮妮殿下' : '猫娘'}/>
                     {item.content}
                 </List.Item>
             )}

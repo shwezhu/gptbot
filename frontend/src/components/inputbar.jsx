@@ -33,6 +33,11 @@ export default function InputBar(props) {
             <Button
                 icon={<ClearOutlined />}
                 onClick={props.onClear}
+                style={{
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    color: 'white',
+                }}
             >清空</Button>
             <Input.TextArea
                 placeholder="Let's chat!"
@@ -44,6 +49,11 @@ export default function InputBar(props) {
             <Button
                 icon={<SendOutlined />}
                 onClick={onClick}
+                style={{
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    color: 'white',
+                }}
             >发送</Button>
         </Space.Compact>
     );
