@@ -1,0 +1,39 @@
+.dialog-box {
+    height: 70vh;
+    overflow: scroll;
+    margin-bottom: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 使消息气泡对齐到开始位置 */
+}
+
+.messages-container {
+    width: 100%;
+}
+
+.message {
+    display: inline-block;
+    box-sizing: border-box;
+    color: black;
+    padding: 1vh;
+    border-radius: 1vh;
+    margin-bottom: 3vh;
+    max-width: 70%;
+    min-height: 6vh;
+}
+
+.message.user {
+    float: right;
+    clear: both;
+    background-color: #ece5dd;
+}
+
+.message.assistant {
+    float: left;
+    clear: both;
+    background-color: #dcf8c6;
+}
+
+.message strong {
+    font-weight: bold;
+}

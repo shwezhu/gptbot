@@ -1,6 +1,6 @@
 import InputBar from "./inputbar.jsx";
 import {Space} from "antd";
-import {ChatBar} from "./chatbar.jsx";
+import {DialogBox} from "./dialogBox.jsx";
 import {useChatGPT} from "../hooks/usechatgpt.jsx";
 
 export function ChatGPT(props) {
@@ -8,7 +8,7 @@ export function ChatGPT(props) {
 
     return (
         <Space style={{width: '100%', paddingLeft: '2vh'}} direction="vertical">
-            <ChatBar chatHistory={chatHistory} loading={loading} onStop={onStop} />
+            <DialogBox chatHistory={chatHistory} loading={loading} onStop={onStop} />
             <InputBar onSend={onSend} onClear={onClear}/>
         </Space>
     );
