@@ -3,15 +3,17 @@ import {message} from "antd";
 
 function validMessageLength(messages) {
     const totalLength = messages.reduce((sum, message) => sum + message.content.length, 0);
-    return totalLength < 2000;
+    return totalLength < 3000;
 }
 
 export const useChatGPT = (props) => {
     const { fetchPath } = props;
     const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     function archiveCurrentMessage(msg) {
         if (msg) {
+            setLoading(false)
             setMessages((messages) => [
                 ...messages,
                 {
@@ -24,18 +26,16 @@ export const useChatGPT = (props) => {
 
     async function fetchMessage(messages) {
         if (!validMessageLength(messages)) {
+            // remove the last message
             setMessages((messages) => messages.slice(0, -1));
             message.warning({
-                content: "消息太多啦, 清空信息之前记得保存重要的信息哦喵~",
+                content: "消息太多啦喵~",
                 duration: 5,
             }).then();
             return;
         }
 
-        message.open({
-            content: "正在获取信息, 请稍等喵~",
-            duration: 1.5,
-        }).then();
+        setLoading(true)
 
         try {
             const response = await fetch(fetchPath, {
@@ -78,6 +78,7 @@ export const useChatGPT = (props) => {
 
     return {
         messages,
+        loading,
         onSend,
         onClear,
     };

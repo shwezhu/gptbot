@@ -16,11 +16,7 @@ export default function Home() {
             }}>
                 <SetKeyBar />
             </Header>
-            <Content
-                style={{
-                    background: colorBgContainer,
-                }}
-            >
+            <Content style={{background: colorBgContainer}}>
                 <ChatGPT fetchPath={'https://shaowenzhu.top:2096/api/chat'} />
             </Content>
             <Footer

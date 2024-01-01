@@ -4,12 +4,12 @@ import {ChatBar} from "./chatbar.jsx";
 import {useChatGPT} from "../hooks/usechatgpt.jsx";
 
 export function ChatGPT(props) {
-    const { messages, onSend, onClear } = useChatGPT(props)
+    const { messages, loading, onSend, onClear } = useChatGPT(props)
 
     return (
         <Space style={{width: '100%',}}
             direction="vertical">
-            <ChatBar messages={messages}/>
+            <ChatBar messages={messages} loading={loading} />
             <SendBar onSend={onSend} onClear={onClear}/>
         </Space>
     );

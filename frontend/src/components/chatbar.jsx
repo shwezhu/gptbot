@@ -1,16 +1,15 @@
 import {List} from "antd";
+import {Loading} from "./loading.jsx";
 
 export function ChatBar(props) {
-    const { messages} = props;
+    const { messages, loading } = props;
 
     return (
         <List
             dataSource={messages}
             renderItem={item => (
                 <List.Item>
-                    <List.Item.Meta
-                        title={item.role}
-                    />
+                    <List.Item.Meta title={item.role}/>
                     {item.content}
                 </List.Item>
             )}
@@ -20,6 +19,7 @@ export function ChatBar(props) {
                 marginBottom: '5vh',
             }}
         >
+            { loading ? <Loading/> : null }
         </List>
     );
 }
