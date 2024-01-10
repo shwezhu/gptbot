@@ -1,16 +1,31 @@
 import {useRef, useState} from 'react';
 import {message} from "antd";
+import {assistant, doctor, translator} from "../components/role.jsx";
 
 function validMessageSize(messages) {
     const totalCharacters = messages.reduce((sum, message) => sum + message.content.length, 0);
 
+    while (messages.length > 16) {
+        messages.shift();  // remove the old message
+    }
+
     if (totalCharacters > 6000) {
-        while (messages.length > 6) {
-            messages.shift();  // remove the first message
+        while (messages.length > 2) {
+            messages.shift();  // remove the old message
         }
     }
 
     return totalCharacters < 6000;
+}
+
+function getSystemInstruction(role) {
+    if (role === 'translator') {
+        return translator;
+    } else if (role === 'doctor') {
+        return doctor;
+    } else {
+        return assistant;
+    }
 }
 
 export const useChatGPT = (props) => {
@@ -46,15 +61,7 @@ export const useChatGPT = (props) => {
     }
 
     async function fetchMessage(messages) {
-        if (!validMessageSize(messages)) {
-            // remove the last message
-            setMessages((messages) => messages.slice(0, -1));
-            message.warning({
-                content: "消息太多啦喵~",
-                duration: 5,
-            }).then();
-            return;
-        }
+        console.log(messages)
 
         setLoading(true)
         controller.current = new AbortController()
@@ -96,14 +103,36 @@ export const useChatGPT = (props) => {
         }
     }
 
-    const onSend = (message) => {
+    const onSend = (message, role=null) => {
         updateMessages(message, 'user');
-        const newMessages = [...messages, {role: 'user', content: message}];
+
+        if (!validMessageSize(messages)) {
+            // remove the last message
+            setMessages((messages) => messages.slice(0, -1));
+            message.warning({
+                content: "消息太多啦喵~",
+                duration: 5,
+            }).then();
+            return;
+        }
+
+        let newMessages;
+        if (role) {
+            const instruction = getSystemInstruction(role);
+            if (role === 'translator') {
+                newMessages = [instruction, {role: 'user', content: message}];
+            } else {
+                newMessages = [instruction, ...messages, {role: 'user', content: message}];
+            }
+        } else {
+            newMessages = [...messages, {role: 'user', content: message}];
+        }
         fetchMessage(newMessages).then();
     };
 
     const onClear = () => {
         setMessages([]);
+        message.info("已清空").then();
     };
 
     const onStop = () => {

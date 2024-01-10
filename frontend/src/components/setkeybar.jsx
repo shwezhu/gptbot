@@ -11,7 +11,7 @@ export default function SetKeyBar() {
     const handleOk = () => {
         if (input === '') {
             message.warning({
-                content: "暗号不可以是不填哦, 喵~",
+                content: "暗号不可以不填哦, 喵~",
                 duration: 2,
             }).then();
             return;

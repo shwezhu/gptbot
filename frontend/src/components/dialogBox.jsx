@@ -22,7 +22,15 @@ export function DialogBox(props) {
                         key={index}
                         className={`message ${message.role === 'user' ? 'user' : 'assistant'}`}
                     >
-                        <strong>{message.role === 'assistant' ? '猫娘' : '妮妮'}</strong>: {message.content}
+                        <strong>{message.role === 'assistant' ? '猫娘' : '妮妮'}</strong>:
+                        {
+                            message.content.split('\n').map((line, index) => (
+                                <span key={index}>
+                                    {line}
+                                    <br/>
+                                </span>
+                            ))
+                        }
                     </div>
                 ))}
             </div>
