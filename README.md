@@ -1,7 +1,18 @@
 # gptbot backend
 
+Some countries have blocked the access to ChatGPT, run this gptbot on a server from a country that has not blocked the access to ChatGPT. Then you can use this gptbot as a proxy to access ChatGPT.
+
 - Single executable file
 - Supports authorization via HTTP header
+
+## Requirements
+
+- Get your own OpenAI API Key at https://platform.openai.com/docs/overview
+- Have a server running in a country that has not blocked the access to ChatGPT
+
+## Why not use VPN, SOCKS or HTTP proxy 
+
+ With proxy server (VPN, SOCKS) you need additional configuration at client side, and it's not easy to use for non-technical users. And HTTP proxy have blocked by some countries. With this gptbot, you can make http request to it from anywhere without any additional setting at client side unless your server IP is blocked by the your country.
 
 ## Build
 
@@ -15,6 +26,8 @@ $go build -o server
 ```
 
 ## Usage
+
+Set environment variable at `.zshrc` or `.bashrc`: `export OPENAI_API_KEY=YOUR_API_KEY`
 
 ```bash
 $./server -h
@@ -30,12 +43,12 @@ Usage of ./server:
 -t string
     authorization token for the API
 
-# listen on port 2096 with TLS
-$./server -t raven1011 -c ~/tls/cert.pem -k ~/tls/cert.key -p 2096
+# listen on port 8080 with TLS
+$./server -t raven1011 -c ~/tls/cert.pem -k ~/tls/cert.key -p 8080
 ```
 
 ```shell
-❯ curl shaowenzhu.top:2096/api/chat \
+❯ curl example.com:8080/api/chat \
   -H "Content-Type: application/json" \
   -H "Authorization: raven1011" \
   -d '{
@@ -96,3 +109,7 @@ Or error:
 # gptbot frontend
 
 ![gptbot](doc/gptbot.png)
+
+## Deploy
+
+Learn more: [Vite & Deployment - React - David's Blog](https://davidzhu.xyz/post/frontend/react/001-vite-deploy/)
