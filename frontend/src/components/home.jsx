@@ -4,6 +4,7 @@ import SetKeyBar from "./setkeybar.jsx";
 
 const { Content, Footer, Header } = Layout;
 import Background from "./background.jsx";
+import ClearHistoryButton from "./clear_history_btn.jsx";
 
 export default function Home() {
     return (
@@ -25,11 +26,12 @@ export default function Home() {
             }}>
                 <Header style={{
                     display: 'flex',
-                    alignItems: 'center', // vertical alignment
-                    justifyContent: 'end', // horizontal alignment
+                    alignItems: 'center',
+                    justifyContent: 'end',
                     backgroundColor: 'transparent',
                 }}>
                     <SetKeyBar/>
+                    <ClearHistoryButton/>
                 </Header>
                 <Content>
                     <ChatGPT fetchPath={'https://shaowenzhu.top:2096/api/chat'}/>

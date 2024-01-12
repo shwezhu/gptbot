@@ -37,7 +37,7 @@ function saveChatHistory(history) {
 
     if (chatHistoryStr.length >= Number(localStorage.getItem(sizeKey))) {
         message.error({
-            content: "历史聊天记录过大, 请清理喵~",
+            content: "历史聊天记录过大, 请删除旧信息, 看右上角喵~",
             duration: 5,
         }).then();
         return;

@@ -65,9 +65,9 @@ export default function InputBar(props) {
                 style={{
                     backgroundColor: 'transparent',
                     border: 'none',
-                    color: 'white',
+                    color: 'blueviolet',
                 }}
-            >清空</Button>
+            >删除记忆</Button>
             <Mentions
                 style={{ width: '100%', overflow: 'hidden' }}
                 onChange={onChange}
@@ -85,7 +85,7 @@ export default function InputBar(props) {
                 style={{
                     backgroundColor: 'transparent',
                     border: 'none',
-                    color: 'white',
+                    color: 'blueviolet',
                 }}
             >发送</Button>
         </Space.Compact>

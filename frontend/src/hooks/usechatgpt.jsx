@@ -107,7 +107,10 @@ export const useChatGPT = (props) => {
 
     const onClear = () => {
         setMessages([]);
-        message.info("已清空").then();
+        message.info({
+            content: "猫猫已经忘掉了之前的一切~",
+            duration: 3,
+        }).then();
     };
 
     const onStop = () => {
