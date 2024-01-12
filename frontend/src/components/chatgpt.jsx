@@ -1,6 +1,6 @@
 import InputBar from "./inputbar.jsx";
 import {Space} from "antd";
-import {DialogBox} from "./dialogBox.jsx";
+import {DialogBox} from "./dialog_box.jsx";
 import {useChatGPT} from "../hooks/usechatgpt.jsx";
 
 export function ChatGPT(props) {

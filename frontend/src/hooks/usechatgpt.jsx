@@ -1,41 +1,29 @@
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {message} from "antd";
-import {assistant, doctor, translator} from "../components/role.jsx";
-
-function validMessageSize(messages) {
-    const totalCharacters = messages.reduce((sum, message) => sum + message.content.length, 0);
-
-    while (messages.length > 16) {
-        messages.shift();  // remove the old message
-    }
-
-    if (totalCharacters > 6000) {
-        while (messages.length > 2) {
-            messages.shift();  // remove the old message
-        }
-    }
-
-    return totalCharacters < 6000;
-}
-
-function getSystemInstruction(role) {
-    if (role === 'translator') {
-        return translator;
-    } else if (role === 'doctor') {
-        return doctor;
-    } else {
-        return assistant;
-    }
-}
+import {getSystemInstruction, trimMessage} from "../functions/chat_message.jsx";
+import {getChatHistory, saveChatHistory} from "../functions/chat_history.jsx";
 
 export const useChatGPT = (props) => {
     const { fetchPath } = props;
-    const [messages, setMessages] = useState([]); // used to send to the server
-    const [chatHistory, setChatHistory] = useState([]); // used to display
+    const [messages, setMessages] = useState([]); // for real request
+    const [chatHistory, setChatHistory] = useState([]); // for display
     const [loading, setLoading] = useState(false);
     const controller = useRef(null)
 
-    function updateMessages(msg, role) {
+    // load the chat history from local storage.
+    useEffect(() => {
+        const chat = getChatHistory();
+        if (chat && chat.length > 0) {
+            setChatHistory(chat);
+        }
+    }, []);
+
+    useEffect(() => {
+        // save the chat history to local storage.
+        saveChatHistory(chatHistory);
+    }, [chatHistory]);
+
+    function saveMessage(msg, role) {
         setMessages((messages) => [
             ...messages,
             {
@@ -51,18 +39,10 @@ export const useChatGPT = (props) => {
                     content: msg,
                 }
             ]
-        )
-    }
-
-    function archiveCurrentMessage(msg) {
-        if (msg) {
-            updateMessages(msg, 'assistant');
-        }
+        );
     }
 
     async function fetchMessage(messages) {
-        console.log(messages)
-
         setLoading(true)
         controller.current = new AbortController()
         try {
@@ -76,7 +56,6 @@ export const useChatGPT = (props) => {
                 signal: controller?.current?.signal,
             });
             const data = await response.json();
-
             setLoading(false)
 
             if (!response.ok) {
@@ -89,7 +68,7 @@ export const useChatGPT = (props) => {
                 return;
             }
 
-            archiveCurrentMessage(data.content);
+            return data;
         } catch (e) {
             setLoading(false)
             // remove the last message
@@ -103,18 +82,9 @@ export const useChatGPT = (props) => {
         }
     }
 
-    const onSend = (message, role=null) => {
-        updateMessages(message, 'user');
-
-        if (!validMessageSize(messages)) {
-            // remove the last message
-            setMessages((messages) => messages.slice(0, -1));
-            message.warning({
-                content: "消息太多啦喵~",
-                duration: 5,
-            }).then();
-            return;
-        }
+    const onSend = async (message, role=null) => {
+        saveMessage(message, 'user');
+        trimMessage(messages)
 
         let newMessages;
         if (role) {
@@ -127,7 +97,12 @@ export const useChatGPT = (props) => {
         } else {
             newMessages = [...messages, {role: 'user', content: message}];
         }
-        fetchMessage(newMessages).then();
+
+        const res = await fetchMessage(newMessages).then();
+        // save the chat history.
+        if (res && res.content.trim()) {
+            saveMessage(res.content, 'assistant');
+        }
     };
 
     const onClear = () => {

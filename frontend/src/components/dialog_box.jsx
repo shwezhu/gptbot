@@ -1,4 +1,4 @@
-import {LoadingInfo} from "./loading-info.jsx";
+import {LoadingInfo} from "./loading_info.jsx";
 import {useEffect, useRef} from "react";
 import "../css/dialogBox.css";
 
