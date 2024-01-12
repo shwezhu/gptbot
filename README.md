@@ -110,6 +110,10 @@ Or error:
 
 ![gptbot](doc/gptbot.png)
 
+- User friendly UI
+- Supports set user token
+- Supports save chat history
+
 ## Deploy
 
 Learn more: [Vite & Deployment - React - David's Blog](https://davidzhu.xyz/post/frontend/react/001-vite-deploy/)
