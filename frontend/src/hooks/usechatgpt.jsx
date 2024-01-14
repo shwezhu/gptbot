@@ -64,60 +64,33 @@ export const useChatGPT = (props) => {
     }
 
     const onSend = async (message, role=null) => {
-        setChatHistory(
-            (chatHistory) => [
-                ...chatHistory,
-                {
-                    role: 'user',
-                    content: message,
-                }
-            ]
-        );
+        updateChatHistory('user', message);
+
         if (role !== 'translator') {
-            setMessages((messages) => [
-                ...messages,
-                {
-                    role: 'user',
-                    content: message,
-                }
-            ]);
-            trimMessage(messages)
+            updateMessages('user', message);
+            trimMessage(messages);
         }
 
         let newMessages;
         if (role) {
             const instruction = getSystemInstruction(role);
             if (role === 'translator') {
-                newMessages = [instruction, {role: 'user', content: message}];
+                newMessages = [instruction, { role: 'user', content: message }];
             } else {
-                newMessages = [instruction, ...messages, {role: 'user', content: message}];
+                newMessages = [instruction, ...messages, { role: 'user', content: message }];
             }
         } else {
-            newMessages = [...messages, {role: 'user', content: message}];
+            newMessages = [...messages, { role: 'user', content: message }];
         }
 
         const res = await fetchMessage(newMessages).then();
-        // save the chat history.
-        if (res && res.content.trim()) {
-            setChatHistory(
-                (chatHistory) => [
-                    ...chatHistory,
-                    {
-                        role: 'assistant',
-                        content: message,
-                    }
-                ]
-            );
 
+        // Update chat history and messages for the assistant's response
+        if (res && res.content.trim()) {
+            updateChatHistory('assistant', res.content);
             if (role !== 'translator') {
-                setMessages((messages) => [
-                    ...messages,
-                    {
-                        role: 'assistant',
-                        content: res.content,
-                    }
-                ]);
-                trimMessage(messages)
+                updateMessages('assistant', res.content);
+                trimMessage(messages);
             }
         }
     };
@@ -129,6 +102,26 @@ export const useChatGPT = (props) => {
             content: "猫猫已经忘掉了之前的一切~",
             duration: 3,
         }).then();
+    };
+
+    const updateChatHistory = (role, content) => {
+        setChatHistory(chatHistory => [
+            ...chatHistory,
+            {
+                role,
+                content,
+            }
+        ]);
+    };
+
+    const updateMessages = (role, content) => {
+        setMessages(messages => [
+            ...messages,
+            {
+                role,
+                content,
+            }
+        ])
     };
 
     const onStop = () => {
