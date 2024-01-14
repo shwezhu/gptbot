@@ -47,12 +47,15 @@ function saveChatHistory(history) {
 }
 
 function clearChatHistory() {
+    // reset the size
+    localStorage.removeItem('size');
+
     let chatHistory = getChatHistory();
     if (!chatHistory) {
         return;
     }
 
-    // remove the last 50 messages
+    // remove the last 'clearSize' messages
     chatHistory.splice(0, Math.min(clearSize, chatHistory.length));
 
     saveChatHistory(chatHistory);

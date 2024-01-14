@@ -23,6 +23,10 @@ export const useChatGPT = (props) => {
         saveChatHistory(chatHistory);
     }, [chatHistory]);
 
+    useEffect(() => {
+        trimMessage(messages);
+    }, [messages]);
+
     async function fetchMessage(messages) {
         setLoading(true)
         controller.current = new AbortController()
@@ -63,18 +67,17 @@ export const useChatGPT = (props) => {
         }
     }
 
-    const onSend = async (message, role=null) => {
+    const onSend = async (message, botRole=null) => {
         updateChatHistory('user', message);
 
-        if (role !== 'translator') {
+        if (botRole !== 'translator') {
             updateMessages('user', message);
-            trimMessage(messages);
         }
 
         let newMessages;
-        if (role) {
-            const instruction = getSystemInstruction(role);
-            if (role === 'translator') {
+        if (botRole) {
+            const instruction = getSystemInstruction(botRole);
+            if (botRole === 'translator') {
                 newMessages = [instruction, { role: 'user', content: message }];
             } else {
                 newMessages = [instruction, ...messages, { role: 'user', content: message }];
@@ -88,21 +91,26 @@ export const useChatGPT = (props) => {
         // Update chat history and messages for the assistant's response
         if (res && res.content.trim()) {
             updateChatHistory('assistant', res.content);
-            if (role !== 'translator') {
+            if (botRole !== 'translator') {
                 updateMessages('assistant', res.content);
-                trimMessage(messages);
             }
         }
     };
 
     const onClear = () => {
-        localStorage.removeItem('size'); // clear the size limit for testing.
         setMessages([]);
         message.info({
             content: "猫猫已经忘掉了之前的一切~",
             duration: 3,
         }).then();
     };
+
+    const onStop = () => {
+        if (controller.current) {
+            controller.current.abort()
+            setLoading(false)
+        }
+    }
 
     const updateChatHistory = (role, content) => {
         setChatHistory(chatHistory => [
@@ -123,13 +131,6 @@ export const useChatGPT = (props) => {
             }
         ])
     };
-
-    const onStop = () => {
-        if (controller.current) {
-            controller.current.abort()
-            setLoading(false)
-        }
-    }
 
     return {
         loading,
