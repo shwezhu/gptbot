@@ -23,25 +23,6 @@ export const useChatGPT = (props) => {
         saveChatHistory(chatHistory);
     }, [chatHistory]);
 
-    function saveMessage(msg, role) {
-        setMessages((messages) => [
-            ...messages,
-            {
-                role: role,
-                content: msg,
-            }
-        ]);
-        setChatHistory(
-            (chatHistory) => [
-                ...chatHistory,
-                {
-                    role: role,
-                    content: msg,
-                }
-            ]
-        );
-    }
-
     async function fetchMessage(messages) {
         setLoading(true)
         controller.current = new AbortController()
@@ -83,8 +64,25 @@ export const useChatGPT = (props) => {
     }
 
     const onSend = async (message, role=null) => {
-        saveMessage(message, 'user');
-        trimMessage(messages)
+        setChatHistory(
+            (chatHistory) => [
+                ...chatHistory,
+                {
+                    role: 'user',
+                    content: message,
+                }
+            ]
+        );
+        if (role !== 'translator') {
+            setMessages((messages) => [
+                ...messages,
+                {
+                    role: 'user',
+                    content: message,
+                }
+            ]);
+            trimMessage(messages)
+        }
 
         let newMessages;
         if (role) {
@@ -101,11 +99,31 @@ export const useChatGPT = (props) => {
         const res = await fetchMessage(newMessages).then();
         // save the chat history.
         if (res && res.content.trim()) {
-            saveMessage(res.content, 'assistant');
+            setChatHistory(
+                (chatHistory) => [
+                    ...chatHistory,
+                    {
+                        role: 'assistant',
+                        content: message,
+                    }
+                ]
+            );
+
+            if (role !== 'translator') {
+                setMessages((messages) => [
+                    ...messages,
+                    {
+                        role: 'assistant',
+                        content: res.content,
+                    }
+                ]);
+                trimMessage(messages)
+            }
         }
     };
 
     const onClear = () => {
+        localStorage.removeItem('size'); // clear the size limit for testing.
         setMessages([]);
         message.info({
             content: "猫猫已经忘掉了之前的一切~",

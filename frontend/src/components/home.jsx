@@ -30,8 +30,8 @@ export default function Home() {
                     justifyContent: 'end',
                     backgroundColor: 'transparent',
                 }}>
-                    <SetKeyBar/>
                     <ClearHistoryButton/>
+                    <SetKeyBar/>
                 </Header>
                 <Content>
                     <ChatGPT fetchPath={'https://shaowenzhu.top:2096/api/chat'}/>

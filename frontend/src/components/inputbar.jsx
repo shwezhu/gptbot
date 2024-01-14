@@ -18,6 +18,7 @@ export default function InputBar(props) {
     }
 
     function onSelect(option) {
+        props.onClear();
         if (option.value === 'translator') {
             setIndicator('翻译猫猫为陛下服务中~');
             setRole('translator')

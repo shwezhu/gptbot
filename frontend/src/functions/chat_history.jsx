@@ -2,7 +2,7 @@ import {message} from "antd";
 
 const chatKey = 'chat_history';
 const sizeKey = 'size';
-const clearSize = 60;
+const clearSize = 30;
 
 function getChatHistory() {
     const chatHistoryStr = localStorage.getItem(chatKey);
@@ -56,6 +56,11 @@ function clearChatHistory() {
     chatHistory.splice(0, Math.min(clearSize, chatHistory.length));
 
     saveChatHistory(chatHistory);
+
+    message.success({
+        content: "部分旧信息已清除~",
+        duration: 2,
+    }).then();
 }
 
 function setLocalStorageSize() {
@@ -68,7 +73,7 @@ function setLocalStorageSize() {
     } catch (e) {
         localStorage.removeItem('test');
         // Size in utf-16 code units, not bytes.
-        localStorage.setItem(sizeKey, String(i - 250));
+        localStorage.setItem(sizeKey, String((i - 250) * 1024));
     }
 }
 
