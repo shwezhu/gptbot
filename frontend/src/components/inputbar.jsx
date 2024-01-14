@@ -70,13 +70,11 @@ export default function InputBar(props) {
                 }}
             >删除记忆</Button>
             <Mentions
-                style={{ width: '100%', overflow: 'hidden' }}
                 onChange={onChange}
+                rows={2}
                 onSelect={onSelect}
                 onPressEnter={onMessage}
-                value={text}
                 placeholder={indicator}
-                placement="top"
                 options={options}
             >
             </Mentions>
