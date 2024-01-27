@@ -71,6 +71,7 @@ export default function InputBar(props) {
             >删除记忆</Button>
             <Mentions
                 onChange={onChange}
+                value={text}
                 rows={2}
                 onSelect={onSelect}
                 onPressEnter={onMessage}

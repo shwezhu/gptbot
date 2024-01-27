@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import {message} from "antd";
 import {getSystemInstruction, trimMessage} from "../functions/chat_message.jsx";
 import {getChatHistory, saveChatHistory} from "../functions/chat_history.jsx";
@@ -10,22 +10,15 @@ export const useChatGPT = (props) => {
     const [loading, setLoading] = useState(false);
     const controller = useRef(null)
 
-    // load the chat history from local storage.
-    useEffect(() => {
-        const chat = getChatHistory();
-        if (chat && chat.length > 0) {
-            setChatHistory(chat);
-        }
-    }, []);
-
-    useEffect(() => {
-        // save the chat history to local storage.
+    if (chatHistory.length > 0) {
         saveChatHistory(chatHistory);
-    }, [chatHistory]);
-
-    useEffect(() => {
-        trimMessage(messages);
-    }, [messages]);
+    } else {
+        const history = getChatHistory();
+        if (history && history.length > 0) {
+            setChatHistory(history);
+        }
+    }
+    trimMessage(messages);
 
     async function fetchMessage(messages) {
         setLoading(true)
