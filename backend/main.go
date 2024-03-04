@@ -20,11 +20,8 @@ func main() {
 	if err := readFlags(flags); err != nil {
 		log.Fatalf("error reading flags: %v", err)
 	}
-
-	mux := http.NewServeMux()
-	mux.HandleFunc("/api/chat", authenticatedOnly(withGPT))
-
-	srv := &Server{mux: mux}
+	
+	srv := NewServer()
 
 	log.Println("Listening on ", strings.TrimPrefix(flags.port, ":"))
 	if flags.tlsCert != "" && flags.tlsKey != "" {
