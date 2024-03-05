@@ -55,6 +55,7 @@ func chat(reqBody *RequestBody) (string, error) {
 	resp, err := openaiClient.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
+			// Model:    reqBody.Model,
 			Model:    openai.GPT3Dot5Turbo,
 			Messages: messages,
 		},
